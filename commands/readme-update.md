@@ -10,53 +10,20 @@ Comprehensively analyze the current project's codebase and generate or update th
 
 ### Phase 1: Codebase Analysis
 
-1. **Identify project type and root files**:
-   - Check for `package.json`, `requirements.txt`, `Cargo.toml`, `go.mod`, `pom.xml`, `Gemfile`, etc.
-   - Read the main config files to understand dependencies and scripts
-   - Check for existing `README.md` to understand current state
+**Use the `codebase-analyst` agent to perform a deep scan of the entire project.**
 
-2. **Map folder structure**:
-   - Use Glob to get an overview of all directories and key files
-   - Identify the hierarchy: `src/`, `lib/`, `app/`, `components/`, `pages/`, `api/`, `functions/`, `supabase/`, `prisma/`, etc.
-   - Note any unconventional or project-specific directories
+The agent will analyze and return:
+- Project type, tech stack, and dependencies
+- Folder structure and architecture components
+- Entry points and code flow
+- Patterns, conventions, and external integrations
+- Key components and their relationships
 
-3. **Identify architecture components**:
-   - **Frontend**: React, Vue, Next.js, Nuxt, Svelte, etc. (check for components, pages, styles)
-   - **Backend/API**: Express, FastAPI, serverless functions, API routes
-   - **Database**: Look for schemas, migrations, models (`prisma/`, `supabase/migrations/`, `drizzle/`, SQL files, ORM models)
-   - **Infrastructure**: Docker files, terraform, serverless.yml, vercel.json, fly.toml, etc.
-   - **Testing**: Test directories, jest.config, pytest.ini, etc.
+Also check for existing `README.md` to understand current state and preserve custom sections.
 
-4. **Understand code flow**:
-   - Find entry points (main.ts, index.js, app.py, etc.)
-   - Trace key imports and module dependencies
-   - Identify core business logic locations
+### Phase 2: Generate README
 
-### Phase 2: Extract Key Information
-
-5. **Tech Stack**:
-   - List all major frameworks and libraries with versions from config files
-   - Identify language(s) used
-   - Note any notable tools (ESLint, Prettier, Husky, etc.)
-
-6. **Features**:
-   - Read through main modules/components to understand what the app does
-   - Check route handlers, API endpoints, and page components
-   - Look for feature flags, config options, or environment variables
-
-7. **Environment & Configuration**:
-   - Check for `.env.example`, `.env.template`, or documented env vars
-   - Identify required API keys, database connections, third-party services
-   - Note any secrets management approach
-
-8. **Deployment**:
-   - Check for deployment configs (Vercel, Netlify, Railway, Fly.io, Docker, etc.)
-   - Look at CI/CD files (`.github/workflows/`, `gitlab-ci.yml`, etc.)
-   - Identify build commands and deployment scripts from package.json or config
-
-### Phase 3: Generate README
-
-9. **Structure the README** with these sections (include only what's relevant):
+**Structure the README** with these sections (include only what's relevant):
 
 ```markdown
 # Project Name
@@ -127,14 +94,14 @@ npm run dev
 | ... | ... |
 ```
 
-### Phase 4: Write or Update
+### Phase 3: Write or Update
 
-10. **If README exists**:
+**If README exists**:
     - Preserve any custom sections (Contributing, License, badges, etc.)
     - Update technical sections with accurate current info
     - Ask user if they want to overwrite or show diff first
 
-11. **If no README exists**:
+**If no README exists**:
     - Create a comprehensive new README.md
     - Inform user of the generated file
 
