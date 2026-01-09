@@ -15,8 +15,8 @@ claude-config/
 │   └── think-save.md       # Save current conversation
 ├── agents/             # Specialized AI agents
 │   ├── code-reviewer.md    # Code review agent
-│   ├── codebase-analyst.md # Codebase analysis agent
-│   └── doc-fetcher.md      # Documentation fetching agent
+│   ├── codebase-analyst.md       # Codebase analysis agent
+│   └── documentation-analyst.md  # Documentation analysis agent
 ├── thoughts/           # Saved thinking/research sessions
 │   └── business/
 │       ├── ideas/
@@ -42,8 +42,8 @@ claude-config/
 | Agent | Tools | Purpose |
 |-------|-------|---------|
 | `codebase-analyst` | Read, Grep, Glob, Bash, LSP | Deep-scan and understand entire codebases |
+| `documentation-analyst` | WebFetch, WebSearch, Read, Write | Deep-scan and understand documentation from URLs |
 | `code-reviewer` | Read, Grep, Glob, Bash | Review code for quality, security, best practices |
-| `doc-fetcher` | WebFetch, WebSearch, Read, Write | Fetch and format documentation from URLs |
 
 ## How It Works
 
