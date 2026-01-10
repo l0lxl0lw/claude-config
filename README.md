@@ -13,28 +13,43 @@ claude-config/
 │   ├── think-new.md        # Start new thinking session
 │   ├── think-resume.md     # Resume saved session
 │   └── think-save.md       # Save current conversation
-├── agents/             # Specialized AI agents (organized by input type)
-│   ├── file/           # Agents that work with local files
-│   │   ├── code/       # Code-related agents
-│   │   │   ├── codebase-analyst.md
-│   │   │   ├── code-review-resolver.md
-│   │   │   ├── extended-planner.md
-│   │   │   ├── feature-developer.md
-│   │   │   ├── git-handler.md
-│   │   │   └── principal-code-reviewer.md
-│   │   ├── text/       # Text processing agents (reserved)
-│   │   └── video/      # Video processing agents
-│   │       ├── video-frame-extractor.md
-│   │       └── video-transcriber.md
-│   ├── orchestrator/   # Agents that coordinate other agents
-│   │   ├── docs-orchestrator.md
-│   │   └── youtube-video-orchestrator.md
-│   └── url/            # Agents that work with URLs/web content
-│       ├── documentations/  # Documentation fetching agents
-│       │   ├── doc-fetcher.md
-│       │   └── docs-tree-crawler.md
-│       └── video/      # Video URL processing agents
-│           └── youtube-video-downloader.md
+├── agents/             # Specialized AI agents (organized by hierarchy: Task → Worker → Manager → Director → Executive → Chief)
+│   ├── 1_task/        # Task-level agents (atomic operations, no subagents)
+│   │   ├── file/       # File-based tasks
+│   │   │   ├── code/   # Code-related tasks
+│   │   │   │   ├── codebase-analyst.md
+│   │   │   │   ├── code-review-resolver.md
+│   │   │   │   ├── git-handler.md
+│   │   │   │   └── principal-code-reviewer.md
+│   │   │   ├── text/   # Text processing tasks
+│   │   │   │   └── text-summarizer.md
+│   │   │   └── video/  # Video processing tasks
+│   │   │       ├── video-frame-extractor.md
+│   │   │       └── video-transcriber.md
+│   │   └── url/        # URL-based tasks
+│   │       ├── docs/   # Documentation fetching tasks
+│   │       │   ├── doc-fetcher.md
+│   │       │   └── docs-tree-crawler.md
+│   │       └── video/  # Video URL processing tasks
+│   │           ├── youtube-thumbnail-downloader.md
+│   │           ├── youtube-transcript-fetcher.md
+│   │           └── youtube-video-downloader.md
+│   ├── 2_worker/       # Worker-level agents (call tasks)
+│   │   └── file/
+│   │       └── code/
+│   │           └── extended-planner.md  # Calls codebase-analyst task
+│   ├── 3_manager/      # Manager-level agents (coordinate workers/tasks)
+│   │   ├── file/
+│   │   │   └── code/
+│   │   │       └── feature-developer.md  # Coordinates extended-planner worker + tasks
+│   │   └── url/
+│   │       ├── docs/
+│   │       │   └── docs-orchestrator.md  # Coordinates doc-fetcher + docs-tree-crawler tasks
+│   │       └── video/
+│   │           └── youtube-video-orchestrator.md  # Coordinates multiple video tasks
+│   ├── 4_director/     # Director-level agents (coordinate managers) - empty, reserved for future use
+│   ├── 5_executive/    # Executive-level agents (coordinate directors) - empty, reserved for future use
+│   └── 6_chief/        # Chief-level agents (coordinate executives) - empty, reserved for future use
 ├── thoughts/           # Saved thinking/research sessions
 │   └── business/
 │       ├── ideas/
@@ -57,45 +72,87 @@ claude-config/
 
 ## Agents
 
-Agents are organized by input type: `file/` (local files), `url/` (web content), and `orchestrator/` (coordination).
+Agents are organized by hierarchy level: **Task → Worker → Manager → Director → Executive → Chief**, then by domain (file/url) and type (code/video/docs/text). Folders are numbered (1_task, 2_worker, etc.) to ensure proper ordering in file browsers.
 
-### File Processing Agents
+### 1. Task-Level Agents (Atomic Operations)
 
-#### Code (`file/code/`)
+Tasks are single-purpose agents that perform atomic operations without calling other agents.
+
+#### File Tasks
+
+**Code (`task/file/code/`)**
 | Agent | Model | Purpose |
 |-------|-------|---------|
 | `codebase-analyst` | opus | Deep-scan and understand entire codebases |
-| `code-review-resolver` | - | Resolve code review feedback |
-| `extended-planner` | - | Extended planning for complex features |
-| `feature-developer` | - | Develop features end-to-end |
-| `git-handler` | - | Handle git operations |
+| `code-review-resolver` | opus | Resolve code review feedback |
+| `git-handler` | sonnet | Handle git operations |
 | `principal-code-reviewer` | opus | Thorough code review of git changes |
 
-#### Video (`file/video/`)
+**Text (`task/file/text/`)**
+| Agent | Model | Purpose |
+|-------|-------|---------|
+| `text-summarizer` | sonnet | Summarize large text documents into structured format |
+
+**Video (`task/file/video/`)**
 | Agent | Model | Purpose |
 |-------|-------|---------|
 | `video-frame-extractor` | haiku | Extract frames from video files (1 fps) |
 | `video-transcriber` | haiku | Transcribe video/audio files using Whisper |
 
-### URL Processing Agents
+#### URL Tasks
 
-#### Documentation (`url/documentations/`)
+**Documentation (`task/url/docs/`)**
 | Agent | Model | Purpose |
 |-------|-------|---------|
 | `doc-fetcher` | sonnet | Fetch and answer questions from documentation URLs |
 | `docs-tree-crawler` | sonnet | Extract navigation structures and build topic trees |
 
-#### Video (`url/video/`)
+**Video (`task/url/video/`)**
 | Agent | Model | Purpose |
 |-------|-------|---------|
+| `youtube-thumbnail-downloader` | haiku | Download YouTube video thumbnails |
+| `youtube-transcript-fetcher` | haiku | Fetch transcripts from YouTube API |
 | `youtube-video-downloader` | haiku | Download YouTube videos at 240p quality |
 
-### Orchestrator Agents
+### 2. Worker-Level Agents (Call Tasks)
 
+Workers coordinate multiple tasks in sequence or parallel.
+
+**Code (`worker/file/code/`)**
+| Agent | Model | Purpose |
+|-------|-------|---------|
+| `extended-planner` | opus | Extended planning for complex features (calls `codebase-analyst`) |
+
+### 3. Manager-Level Agents (Coordinate Workers/Tasks)
+
+Managers coordinate multiple workers and/or tasks to complete complex workflows.
+
+### 4. Director-Level Agents (Coordinate Managers)
+
+Directors coordinate multiple managers to handle enterprise-level workflows. Currently empty, reserved for future use.
+
+### 5. Executive-Level Agents (Coordinate Directors)
+
+Executives coordinate multiple directors to handle organization-wide workflows. Currently empty, reserved for future use.
+
+### 6. Chief-Level Agents (Coordinate Executives)
+
+Chief agents coordinate multiple executives to handle strategic, organization-wide initiatives. Currently empty, reserved for future use.
+
+**Code (`manager/file/code/`)**
+| Agent | Model | Purpose |
+|-------|-------|---------|
+| `feature-developer` | opus | Complete feature development workflow (coordinates `extended-planner` worker + code review/git tasks) |
+
+**Documentation (`manager/url/docs/`)**
 | Agent | Model | Purpose |
 |-------|-------|---------|
 | `docs-orchestrator` | opus | Coordinate doc-fetcher and docs-tree-crawler for shallow tree fetching |
-| `youtube-video-orchestrator` | sonnet | Coordinate download, frame extraction, transcription, and summarization pipeline |
+
+**Video (`manager/url/video/`)**
+| Agent | Model | Purpose |
+|-------|-------|---------|
+| `youtube-video-orchestrator` | sonnet | Complete YouTube video processing pipeline (coordinates download, frame extraction, transcript fetching, thumbnail download, and summarization) |
 
 ## How It Works
 
