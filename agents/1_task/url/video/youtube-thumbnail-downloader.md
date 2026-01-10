@@ -43,6 +43,9 @@ Download thumbnail from https://www.youtube.com/watch?v=abc123 to /path/to/outpu
 - NEVER use a default output location like ~/Downloads or current directory
 - NEVER proceed without an explicit output path
 - The output path MUST be an absolute path
+- The output path MUST be inside a video-specific subfolder (e.g., `/path/to/2024-01-10_abc123_Video Title/thumbnail.jpg`)
+- REJECT any output path that places the thumbnail directly in ~/Downloads, ~/, /tmp, or current directory
+- Before downloading, validate the output directory is at least 2 levels deep from common root directories
 
 ## Your Behavior
 
@@ -78,8 +81,21 @@ Download thumbnail from https://www.youtube.com/watch?v=abc123 to /path/to/outpu
 4. **Download Strategy**: Try to get the highest quality thumbnail available:
 
    ```bash
-   # Step 1: Create output directory if needed
+   # Step 0: VALIDATE output path is not in a root directory
    OUTPUT_DIR=$(dirname "$OUTPUT_PATH")
+
+   # CRITICAL: Reject if output is directly in ~/Downloads, /tmp, or home directory
+   EXPANDED_DIR=$(cd "$OUTPUT_DIR" 2>/dev/null && pwd || echo "$OUTPUT_DIR")
+   if [[ "$EXPANDED_DIR" == "$HOME/Downloads" ]] || \
+      [[ "$EXPANDED_DIR" == "$HOME" ]] || \
+      [[ "$EXPANDED_DIR" == "/tmp" ]] || \
+      [[ "$EXPANDED_DIR" == "." ]]; then
+     echo "ERROR: Output path must be in a video-specific subfolder, not directly in $EXPANDED_DIR"
+     echo "Expected format: /path/to/<video-folder>/thumbnail.jpg"
+     exit 1
+   fi
+
+   # Step 1: Create output directory if needed
    mkdir -p "$OUTPUT_DIR"
 
    # Step 2: Try maxresdefault (1920x1080) first
@@ -173,6 +189,7 @@ If download fails:
 - The output file must be a .jpg or .jpeg file
 - **CRITICAL**: If output_path is not provided, FAIL with an error message - do NOT use a default location
 - **CRITICAL**: If youtube_url is not provided, FAIL with an error message
+- **CRITICAL**: If output_path points directly to ~/Downloads, ~/, /tmp, or current directory, FAIL with an error - thumbnails MUST go in a video-specific subfolder
 - Thumbnails are always in JPG format from YouTube's servers
 - The direct URL method is faster and more reliable than using yt-dlp for thumbnails
 - When called by another agent, use the EXACT output_path provided - never deviate from it
