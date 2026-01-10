@@ -13,10 +13,28 @@ claude-config/
 │   ├── think-new.md        # Start new thinking session
 │   ├── think-resume.md     # Resume saved session
 │   └── think-save.md       # Save current conversation
-├── agents/             # Specialized AI agents
-│   ├── code-reviewer.md    # Code review agent
-│   ├── codebase-analyst.md       # Codebase analysis agent
-│   └── documentation-analyst.md  # Documentation analysis agent
+├── agents/             # Specialized AI agents (organized by input type)
+│   ├── file/           # Agents that work with local files
+│   │   ├── code/       # Code-related agents
+│   │   │   ├── codebase-analyst.md
+│   │   │   ├── code-review-resolver.md
+│   │   │   ├── extended-planner.md
+│   │   │   ├── feature-developer.md
+│   │   │   ├── git-handler.md
+│   │   │   └── principal-code-reviewer.md
+│   │   ├── text/       # Text processing agents (reserved)
+│   │   └── video/      # Video processing agents
+│   │       ├── video-frame-extractor.md
+│   │       └── video-transcriber.md
+│   ├── orchestrator/   # Agents that coordinate other agents
+│   │   ├── docs-orchestrator.md
+│   │   └── youtube-video-orchestrator.md
+│   └── url/            # Agents that work with URLs/web content
+│       ├── documentations/  # Documentation fetching agents
+│       │   ├── doc-fetcher.md
+│       │   └── docs-tree-crawler.md
+│       └── video/      # Video URL processing agents
+│           └── youtube-video-downloader.md
 ├── thoughts/           # Saved thinking/research sessions
 │   └── business/
 │       ├── ideas/
@@ -39,11 +57,45 @@ claude-config/
 
 ## Agents
 
-| Agent | Tools | Purpose |
+Agents are organized by input type: `file/` (local files), `url/` (web content), and `orchestrator/` (coordination).
+
+### File Processing Agents
+
+#### Code (`file/code/`)
+| Agent | Model | Purpose |
 |-------|-------|---------|
-| `codebase-analyst` | Read, Grep, Glob, Bash, LSP | Deep-scan and understand entire codebases |
-| `documentation-analyst` | WebFetch, WebSearch, Read, Write | Deep-scan and understand documentation from URLs |
-| `code-reviewer` | Read, Grep, Glob, Bash | Review code for quality, security, best practices |
+| `codebase-analyst` | opus | Deep-scan and understand entire codebases |
+| `code-review-resolver` | - | Resolve code review feedback |
+| `extended-planner` | - | Extended planning for complex features |
+| `feature-developer` | - | Develop features end-to-end |
+| `git-handler` | - | Handle git operations |
+| `principal-code-reviewer` | opus | Thorough code review of git changes |
+
+#### Video (`file/video/`)
+| Agent | Model | Purpose |
+|-------|-------|---------|
+| `video-frame-extractor` | haiku | Extract frames from video files (1 fps) |
+| `video-transcriber` | haiku | Transcribe video/audio files using Whisper |
+
+### URL Processing Agents
+
+#### Documentation (`url/documentations/`)
+| Agent | Model | Purpose |
+|-------|-------|---------|
+| `doc-fetcher` | sonnet | Fetch and answer questions from documentation URLs |
+| `docs-tree-crawler` | sonnet | Extract navigation structures and build topic trees |
+
+#### Video (`url/video/`)
+| Agent | Model | Purpose |
+|-------|-------|---------|
+| `youtube-video-downloader` | haiku | Download YouTube videos at 240p quality |
+
+### Orchestrator Agents
+
+| Agent | Model | Purpose |
+|-------|-------|---------|
+| `docs-orchestrator` | opus | Coordinate doc-fetcher and docs-tree-crawler for shallow tree fetching |
+| `youtube-video-orchestrator` | sonnet | Coordinate download, frame extraction, transcription, and summarization pipeline |
 
 ## How It Works
 
