@@ -136,9 +136,19 @@ You are an expert workflow orchestrator specializing in YouTube video processing
     ```
 
   **Agent C: `youtube-thumbnail-downloader`**
-  - **CRITICAL**: Provide BOTH the YouTube URL AND the output file path explicitly
-  - Prompt format: `"Download thumbnail from YOUTUBE_URL to <ABSOLUTE_OUTPUT_DIR>/thumbnail.jpg"`
-  - Example: `"Download thumbnail from https://youtube.com/watch?v=abc123 to /path/to/2024-01-10_abc123_My Video Title/thumbnail.jpg"`
+  - **CRITICAL**: The output path is REQUIRED - the agent will refuse to run without it
+  - You MUST provide BOTH the YouTube URL AND the output path as ABSOLUTE paths
+  - **USE EXPLICIT PARAMETER FORMAT** in the prompt:
+    ```
+    youtube_url: <YOUTUBE_URL>
+    output_path: <ABSOLUTE_OUTPUT_PATH>/thumbnail.jpg
+    ```
+  - Example prompt to pass to the agent:
+    ```
+    youtube_url: https://www.youtube.com/watch?v=abc123
+    output_path: /Users/azulee/Downloads/2024-01-10_abc123_My Video Title/thumbnail.jpg
+    ```
+  - **DO NOT use relative paths or variables** - expand all paths to their full absolute form before calling
   - The agent fetches thumbnails directly from YouTube's image servers (no video file needed)
   - Downloads the highest quality thumbnail available (tries 1920x1080, falls back to 480x360)
   - Output structure:
