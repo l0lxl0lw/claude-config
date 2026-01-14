@@ -8,11 +8,8 @@ Global Claude Code configuration repository - custom slash commands, agents, and
 claude-config/
 ├── CLAUDE.md           # Global instructions (imported by ~/.claude/CLAUDE.md)
 ├── commands/           # Custom slash commands (symlinked to ~/.claude/commands)
-│   ├── domain-lookup.md    # Generate & check domain availability
-│   ├── readme-update.md    # Analyze codebase & update README
-│   ├── think-new.md        # Start new thinking session
-│   ├── think-resume.md     # Resume saved session
-│   └── think-save.md       # Save current conversation
+│   ├── commit-local-changes.md  # Analyze & commit uncommitted changes
+│   └── update-diagram.md        # Scan & update diagram files
 ├── agents/             # Specialized AI agents (organized by hierarchy: Task → Worker → Manager → Director → Executive → Chief)
 │   ├── 1_task/        # Task-level agents (atomic operations, no subagents)
 │   │   ├── file/       # File-based tasks
@@ -64,11 +61,8 @@ claude-config/
 
 | Command | Description |
 |---------|-------------|
-| `/think-new` | Start a categorized thinking/brainstorming session |
-| `/think-resume` | Resume a previously saved thinking session |
-| `/think-save` | Save current conversation to markdown with metadata |
-| `/domain-lookup` | Generate made-up words and check domain availability |
-| `/readme-update` | Analyze codebase and generate/update README.md |
+| `/commit-local-changes` | Analyze uncommitted changes and create a commit |
+| `/update-diagram` | Scan codebase and update existing diagram files |
 
 ## Agents
 
@@ -191,13 +185,3 @@ Chief agents coordinate multiple executives to handle strategic, organization-wi
   ---
   ```
 - **Context files**: Add to `context/` and import with `@~/workspace/claude-config/context/filename.md`
-
-## Thinking Sessions
-
-The thinking system uses a staged idea pipeline:
-
-| Stage | Path | Purpose |
-|-------|------|---------|
-| Discovery | `thoughts/*/ideas/1_discover/` | Broad exploration of many ideas |
-| Deep Dive | `thoughts/*/ideas/2_explore_deeper/` | Detailed research on promising ideas |
-| Pursue | `thoughts/*/ideas/3_pursue/` | Validated ideas ready to build |
