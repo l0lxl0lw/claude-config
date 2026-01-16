@@ -84,6 +84,15 @@ This command finds all diagram markdown files (`*diagram.md` or `*diagrams.md`) 
 
 ## Rules
 
+### ASCII Diagram Alignment
+
+Before completing any ASCII diagram edit, verify alignment by checking:
+- All rows in a box have identical character width
+- Vertical bars (`│`) align in the same column across rows
+- No content overflows cell boundaries
+
+### General Rules
+
 - NEVER replace entire diagrams with new content - always update incrementally
 - ALWAYS preserve the existing diagram format (Mermaid, ASCII, etc.)
 - ALWAYS match the existing naming conventions and styling
