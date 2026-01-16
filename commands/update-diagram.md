@@ -76,6 +76,12 @@ This command finds all diagram markdown files (`*diagram.md` or `*diagrams.md`) 
    - What was removed
    - What was modified
 
+7. **Verify ASCII art alignment:** After finishing all updates to ASCII art diagrams, carefully check that all box borders and lines are properly aligned. Add or remove spaces as needed to ensure:
+   - All vertical lines (`│`) in a column are aligned
+   - All horizontal box edges (`┌`, `┐`, `└`, `┘`, `─`) connect properly
+   - Text content doesn't overflow box boundaries
+   - Nested boxes maintain consistent margins
+
 ## Rules
 
 - NEVER replace entire diagrams with new content - always update incrementally
