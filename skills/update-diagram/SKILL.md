@@ -1,10 +1,15 @@
+---
+name: update-diagram
+description: Scan the codebase and update existing diagram files to reflect the current state of the code. Use when diagrams need refreshing after code changes.
+---
+
 # Update Diagram
 
 Scan the codebase and update existing diagram files to reflect the current state of the code.
 
 ## Overview
 
-This command finds all diagram markdown files (`*diagram.md` or `*diagrams.md`) in the workspace and updates them based on a deep analysis of the codebase. It preserves the existing diagram structure and style while adding, removing, or modifying elements to match the current code.
+This skill finds all diagram markdown files (`*diagram.md` or `*diagrams.md`) in the workspace and updates them based on a deep analysis of the codebase. It preserves the existing diagram structure and style while adding, removing, or modifying elements to match the current code.
 
 ## Steps
 

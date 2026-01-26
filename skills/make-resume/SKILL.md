@@ -1,3 +1,9 @@
+---
+name: make-resume
+description: Generate a tailored resume and cover letter based on a job description.
+disable-model-invocation: true
+---
+
 # Make Resume
 
 Generate a tailored resume and cover letter based on a job description.
@@ -36,11 +42,11 @@ Generate a tailored resume and cover letter based on a job description.
 ### Phase 5: Save and Convert
 7. Create output folder: `/Users/azulee/workspace/private/resume/tailored/<company-name>/`
 8. Write `resume.md` and `cover-letter.md` to the folder
-9. Convert to PDF:
+9. Convert to PDF using pandoc with weasyprint and custom CSS:
    ```bash
    cd /Users/azulee/workspace/private/resume/tailored/<company-name>/
-   pandoc resume.md -o resume.pdf
-   pandoc cover-letter.md -o cover-letter.pdf
+   pandoc resume.md -o resume.pdf --pdf-engine=weasyprint --css=/Users/azulee/workspace/private/resume/resume.css
+   pandoc cover-letter.md -o cover-letter.pdf --pdf-engine=weasyprint --css=/Users/azulee/workspace/private/resume/resume.css
    ```
 
 ### Phase 6: Track Application
@@ -63,7 +69,7 @@ Generate a tailored resume and cover letter based on a job description.
 - Keep resume to 1 page when possible (prioritize recent/relevant experience)
 - Use professional, confident tone in cover letter
 - Match the resume markdown format from master resume
-- If pandoc fails, inform user and keep markdown files
+- If md2pdf fails, inform user and keep markdown files
 - applications.md format (create with header if file doesn't exist):
   ```markdown
   # Job Applications

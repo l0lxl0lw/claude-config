@@ -1,15 +1,16 @@
 # Claude Config
 
-Global Claude Code configuration repository - custom slash commands, agents, and thinking sessions synced across machines.
+Global Claude Code configuration repository - custom skills, agents, and thinking sessions synced across machines.
 
 ## Structure
 
 ```
 claude-config/
 ├── CLAUDE.md           # Global instructions (imported by ~/.claude/CLAUDE.md)
-├── commands/           # Custom slash commands (symlinked to ~/.claude/commands)
-│   ├── commit-local-changes.md  # Analyze & commit uncommitted changes
-│   └── update-diagram.md        # Scan & update diagram files
+├── skills/             # Custom skills (symlinked to ~/.claude/skills)
+│   ├── commit-local-changes/    # Analyze & commit uncommitted changes
+│   ├── make-resume/             # Generate tailored resume from job description
+│   └── update-diagram/          # Scan & update diagram files
 ├── agents/             # Specialized AI agents (organized by hierarchy: Task → Worker → Manager → Director → Executive → Chief)
 │   ├── 1_task/        # Task-level agents (atomic operations, no subagents)
 │   │   ├── file/       # File-based tasks
@@ -57,13 +58,13 @@ claude-config/
 └── context/            # Additional context files
 ```
 
-## Commands
+## Skills
 
-| Command | Description |
-|---------|-------------|
-| `/commit-local-changes` | Analyze uncommitted changes and create a commit |
-| `/make-resume` | Generate tailored resume and cover letter from job description |
-| `/update-diagram` | Scan codebase and update existing diagram files |
+| Skill | Description | Model Invocable |
+|-------|-------------|-----------------|
+| `/commit-local-changes` | Analyze uncommitted changes and create a commit | No |
+| `/make-resume` | Generate tailored resume and cover letter from job description | No |
+| `/update-diagram` | Scan codebase and update existing diagram files | Yes |
 
 ## Agents
 
@@ -153,7 +154,7 @@ Chief agents coordinate multiple executives to handle strategic, organization-wi
 
 1. **Auto-sync**: Pulls from GitHub daily via `~/dotfiles/zsh/zshrc.conf`
 2. **Global context**: `~/.claude/CLAUDE.md` imports this repo's `CLAUDE.md` using `@path` syntax
-3. **Slash commands**: `~/.claude/commands` symlinks to this repo's `commands/`
+3. **Skills**: `~/.claude/skills` symlinks to this repo's `skills/`
 4. **Agents**: Invoked automatically by Claude Code when specialized tasks match their descriptions
 
 ## Setup
@@ -163,19 +164,24 @@ Chief agents coordinate multiple executives to handle strategic, organization-wi
    ```markdown
    @~/workspace/claude-config/CLAUDE.md
    ```
-3. Symlink commands:
+3. Symlink skills:
    ```bash
-   ln -s ~/workspace/claude-config/commands ~/.claude/commands
+   ln -s ~/workspace/claude-config/skills ~/.claude/skills
    ```
 
 ## Adding Content
 
 - **Instructions**: Edit `CLAUDE.md` with global preferences
-- **Slash commands**: Add `.md` files to `commands/` with frontmatter:
+- **Skills**: Add a directory to `skills/<skill-name>/SKILL.md` with frontmatter:
   ```yaml
   ---
-  description: Brief description for command list
+  name: skill-name
+  description: What this skill does and when to use it
+  disable-model-invocation: true  # Optional: prevents Claude from auto-invoking
+  allowed-tools: Read, Grep       # Optional: restrict available tools
   ---
+
+  Your skill instructions here...
   ```
 - **Agents**: Add `.md` files to `agents/` with frontmatter:
   ```yaml

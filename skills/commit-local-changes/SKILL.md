@@ -1,3 +1,9 @@
+---
+name: commit-local-changes
+description: Analyze uncommitted changes and create a commit, with options to squash or stack on existing unpushed commits.
+disable-model-invocation: true
+---
+
 # Commit Local Changes
 
 Analyze uncommitted changes and create a commit.
