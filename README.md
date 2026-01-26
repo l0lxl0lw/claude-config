@@ -62,6 +62,7 @@ claude-config/
 | Command | Description |
 |---------|-------------|
 | `/commit-local-changes` | Analyze uncommitted changes and create a commit |
+| `/make-resume` | Generate tailored resume and cover letter from job description |
 | `/update-diagram` | Scan codebase and update existing diagram files |
 
 ## Agents
