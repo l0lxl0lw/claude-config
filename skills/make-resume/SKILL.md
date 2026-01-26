@@ -72,6 +72,7 @@ Generate a tailored resume and cover letter based on a job description.
 
 ## Rules
 
+- **Markdown line breaks:** Use two newlines (blank line) for any content that needs to appear on separate lines in the PDF. A single newline in markdown becomes a space, not a line break. This is especially important for sign-offs (e.g., "Thanks," and "Azu" must have a blank line between them).
 - ALWAYS read the master resume first before generating anything
 - NEVER fabricate experience or skills - only reorganize and emphasize existing content
 - Keep resume to 1 page when possible (prioritize recent/relevant experience)
