@@ -1,7 +1,7 @@
 ---
 name: make-resume
 description: Generate a tailored resume and cover letter based on a job description.
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # Make Resume

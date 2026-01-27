@@ -10,6 +10,7 @@ claude-config/
 ├── skills/             # Custom skills (symlinked to ~/.claude/skills)
 │   ├── commit-local-changes/    # Analyze & commit uncommitted changes
 │   ├── make-resume/             # Generate tailored resume from job description
+│   ├── readme/                  # Read README and execute instructions
 │   └── update-diagram/          # Scan & update diagram files
 ├── agents/             # Specialized AI agent personas
 │   ├── tech-stack-researcher.md
@@ -31,7 +32,8 @@ claude-config/
 | Skill | Description | Model Invocable |
 |-------|-------------|-----------------|
 | `/commit-local-changes` | Analyze uncommitted changes and create a commit | No |
-| `/make-resume` | Generate tailored resume and cover letter from job description | No |
+| `/make-resume` | Generate tailored resume and cover letter from job description | Yes |
+| `/readme` | Read README in current directory and execute instructions | Yes |
 | `/update-diagram` | Scan codebase and update existing diagram files | Yes |
 
 ## Agents
