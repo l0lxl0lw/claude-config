@@ -23,7 +23,8 @@ claude-config/
 │   ├── security-engineer.md
 │   ├── technical-writer.md
 │   ├── learning-guide.md
-│   └── deep-research-agent.md
+│   ├── deep-research-agent.md
+│   └── notion.md
 └── context/            # Additional context files
 ```
 
@@ -65,6 +66,12 @@ Specialized AI agent personas that provide focused expertise for different devel
 | `technical-writer` | Clear, comprehensive documentation |
 | `learning-guide` | Teaching programming concepts progressively |
 | `deep-research-agent` | Comprehensive research with adaptive strategies |
+
+### Integrations
+
+| Agent | Purpose |
+|-------|---------|
+| `notion` | Search and interact with Notion workspace via MCP |
 
 ## How It Works
 
