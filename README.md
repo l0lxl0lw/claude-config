@@ -25,6 +25,14 @@ claude-config/
 │   ├── learning-guide.md
 │   ├── deep-research-agent.md
 │   └── notion.md
+├── prompts/            # System prompts collection (reference)
+│   ├── Anthropic/      # Claude prompts
+│   ├── Google/         # Gemini prompts
+│   ├── OpenAI/         # GPT/o-series prompts
+│   ├── Perplexity/
+│   ├── Proton/
+│   ├── xAI/            # Grok prompts
+│   └── Misc/
 └── context/            # Additional context files
 ```
 
