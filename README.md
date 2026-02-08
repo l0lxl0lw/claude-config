@@ -127,3 +127,9 @@ Specialized AI agent personas that provide focused expertise for different devel
   ---
   ```
 - **Context files**: Add to `context/` and import with `@~/workspace/claude-config/context/filename.md`
+
+## Useful References
+
+| Resource | Description |
+|----------|-------------|
+| [Claude Usage Tracker](https://github.com/hamed-elfayome/Claude-Usage-Tracker) | Native macOS menu bar app to monitor Claude AI usage limits in real-time — tracks session, weekly, and Opus-specific consumption |
