@@ -11,7 +11,9 @@ claude-config/
 │   ├── commit-local-changes/    # Analyze & commit uncommitted changes
 │   ├── make-resume/             # Generate tailored resume from job description
 │   ├── readme/                  # Read README and execute instructions
-│   └── update-diagram/          # Scan & update diagram files
+│   ├── update-diagram/          # Scan & update diagram files
+│   ├── notion/                  # Interact with Notion workspace
+│   └── elevenlabs/              # Generate speech, audio, music & manage AI agents
 ├── agents/             # Specialized AI agent personas
 │   ├── tech-stack-researcher.md
 │   ├── system-architect.md
@@ -44,6 +46,8 @@ claude-config/
 | `/make-resume` | Generate tailored resume and cover letter from job description | Yes |
 | `/readme` | Read README in current directory and execute instructions | Yes |
 | `/update-diagram` | Scan codebase and update existing diagram files | Yes |
+| `/notion` | Search, read, create, and manage Notion workspace content | Yes |
+| `/elevenlabs` | Generate speech, sound effects, music, clone voices, transcribe audio, manage AI agents | Yes |
 
 ## Agents
 
