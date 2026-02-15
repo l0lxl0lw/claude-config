@@ -133,3 +133,4 @@ Specialized AI agent personas that provide focused expertise for different devel
 | Resource | Description |
 |----------|-------------|
 | [Claude Usage Tracker](https://github.com/hamed-elfayome/Claude-Usage-Tracker) | Native macOS menu bar app to monitor Claude AI usage limits in real-time — tracks session, weekly, and Opus-specific consumption |
+| [Context Window Progress Bar](https://gist.github.com/davidamo9/764415aff29959de21f044dbbfd00cd9) | Custom status line script showing real-time context window usage with color-coded progress bar, session cost, model indicator, and git branch |
