@@ -2,6 +2,8 @@
 
 Global Claude Code configuration repository - custom skills and agents synced across machines.
 
+> **Pulled by**: [`~/dotfiles`](https://github.com/l0lxl0lw/dotfiles) — the dotfiles repo clones/pulls this repo and loads its agents and skills into the shell environment.
+
 ## Structure
 
 ```
@@ -84,6 +86,23 @@ Specialized AI agent personas that provide focused expertise for different devel
 | Agent | Purpose |
 |-------|---------|
 | `notion` | Search and interact with Notion workspace via MCP |
+
+## Global vs. Project-Specific
+
+| Scope | Location | Purpose |
+|-------|----------|---------|
+| **Global** | `~/dotfiles` → `~/.claude/skills` & `~/.claude/agents` | Shared across all projects (this repo) |
+| **Project-specific** | `.claude/skills/` & `.claude/agents/` within a project | Scoped to that project only |
+
+The [`dotfiles`](https://github.com/l0lxl0lw/dotfiles) repo pulls this `claude-config` repo and loads its global agents/skills into the shell. For project-specific customizations, add skills and agents directly inside the project:
+
+```
+my-project/
+├── .claude/
+│   ├── skills/       # Project-specific skills
+│   └── agents/       # Project-specific agents
+└── ...
+```
 
 ## How It Works
 
