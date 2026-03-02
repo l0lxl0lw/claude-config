@@ -10,6 +10,7 @@ Global Claude Code configuration repository - custom skills and agents synced ac
 claude-config/
 ├── CLAUDE.md           # Global instructions (imported by ~/.claude/CLAUDE.md)
 ├── skills/             # Custom skills (symlinked to ~/.claude/skills)
+│   ├── commit-and-push/           # Commit and push to remote
 │   ├── commit-local-changes/    # Analyze & commit uncommitted changes
 │   ├── make-resume/             # Generate tailored resume from job description
 │   ├── readme/                  # Read README and execute instructions
@@ -44,6 +45,7 @@ claude-config/
 
 | Skill | Description | Model Invocable |
 |-------|-------------|-----------------|
+| `/commit-and-push` | Commit and push to remote (extends commit-local-changes) | No |
 | `/commit-local-changes` | Analyze uncommitted changes and create a commit | No |
 | `/make-resume` | Generate tailored resume and cover letter from job description | Yes |
 | `/readme` | Read README in current directory and execute instructions | Yes |
