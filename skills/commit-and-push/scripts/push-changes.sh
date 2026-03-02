@@ -18,6 +18,10 @@ fi
 
 FORCE=""
 if [[ "$1" == "--force" ]]; then
+    if [[ "$BRANCH" == "main" || "$BRANCH" == "master" ]]; then
+        echo "ERROR: Refusing to force push to '$BRANCH'. This is a protected branch."
+        exit 1
+    fi
     FORCE="--force-with-lease"
     echo "Using --force-with-lease (safe force push)"
 fi

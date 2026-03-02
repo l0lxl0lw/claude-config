@@ -59,6 +59,7 @@ Add to `context/` and import with `@~/workspace/claude-config/context/filename.m
 - Skill names use kebab-case directories; agent names use kebab-case `.md` files
 - The `prompts/` directory is a reference archive — organized by provider (Anthropic, Google, OpenAI, xAI, Perplexity, Misc). Read-only, not loaded by Claude Code
 - The commit-local-changes skill enforces: no "Co-Authored-By" lines, no `git push` (user pushes manually), conventional commit style when the repo uses it
+- The commit-and-push skill extends commit-local-changes with a push step; no force push to main/master
 - `.env` and `.google-credentials.json` are gitignored
 
 # currentDate
