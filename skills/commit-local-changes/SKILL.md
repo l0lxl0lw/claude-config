@@ -23,9 +23,9 @@ This skill includes helper scripts in `~/.claude/skills/commit-local-changes/scr
 
 ### Phase 1: Analyze Repository State
 
-1. Run the analysis script to get full picture:
+1. Run the analysis script **from the repo root** to get full picture:
    ```bash
-   bash ~/.claude/skills/commit-local-changes/scripts/analyze-changes.sh
+   bash -c 'cd "$(git rev-parse --show-toplevel)" && bash ~/.claude/skills/commit-local-changes/scripts/analyze-changes.sh'
    ```
 
    This outputs:

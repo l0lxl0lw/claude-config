@@ -60,6 +60,7 @@ Add to `context/` and import with `@~/workspace/claude-config/context/filename.m
 - The `prompts/` directory is a reference archive — organized by provider (Anthropic, Google, OpenAI, xAI, Perplexity, Misc). Read-only, not loaded by Claude Code
 - The commit-local-changes skill enforces: no "Co-Authored-By" lines, no `git push` (user pushes manually), conventional commit style when the repo uses it
 - The commit-and-push skill extends commit-local-changes with a push step; no force push to main/master
+- When using commit-and-push, always run the analyze script from the **repo root** (not a subdirectory) so the README check works correctly
 - `.env` and `.google-credentials.json` are gitignored
 
 # currentDate
