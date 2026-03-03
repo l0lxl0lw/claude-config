@@ -16,7 +16,8 @@ claude-config/
 │   ├── readme/                  # Read README and execute instructions
 │   ├── update-diagram/          # Scan & update diagram files
 │   ├── notion/                  # Interact with Notion workspace
-│   └── elevenlabs/              # Generate speech, audio, music & manage AI agents
+│   ├── elevenlabs/              # Generate speech, audio, music & manage AI agents
+│   └── remotion/               # Remotion video creation best practices
 ├── agents/             # Specialized AI agent personas
 │   ├── tech-stack-researcher.md
 │   ├── system-architect.md
@@ -52,6 +53,7 @@ claude-config/
 | `/update-diagram` | Scan codebase and update existing diagram files | Yes |
 | `/notion` | Search, read, create, and manage Notion workspace content | Yes |
 | `/elevenlabs` | Generate speech, sound effects, music, clone voices, transcribe audio, manage AI agents | Yes |
+| `/remotion` | Best practices for Remotion video creation in React | Yes |
 
 ## Agents
 
