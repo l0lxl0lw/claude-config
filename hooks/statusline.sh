@@ -48,8 +48,9 @@ bar=$(printf '%*s' "$filled" '' | tr ' ' '█')$(printf '%*s' "$empty" '' | tr '
 # Directory relative to home
 dir_path=$(echo "$PWD" | sed "s|^$HOME|~|")
 
-# Git branch
+# Git branch + clickable repo link
 git_info=""
+repo_link=""
 if git rev-parse --git-dir &>/dev/null 2>&1; then
   branch=$(git branch --show-current 2>/dev/null)
   if [ -n "$branch" ]; then
@@ -59,10 +60,19 @@ if git rev-parse --git-dir &>/dev/null 2>&1; then
       git_info="${magenta}⎇ $branch${reset}"
     fi
   fi
+
+  # Clickable repo link (OSC 8)
+  remote_url=$(git remote get-url origin 2>/dev/null)
+  if [ -n "$remote_url" ]; then
+    remote_url=$(echo "$remote_url" | sed 's|git@github.com:|https://github.com/|' | sed 's|\.git$||')
+    repo_name=$(basename "$remote_url")
+    repo_link="\033]8;;${remote_url}\a${repo_name}\033]8;;\a"
+  fi
 fi
 
 # Build output
 output="${cyan}${model_name}${reset} ${dim}|${reset} ${bar_color}${bar}${reset} ${pct}% ${dim}|${reset} ${blue}${dir_path}${reset}"
+[ -n "$repo_link" ] && output="$output ${dim}|${reset} ${cyan}$repo_link${reset}"
 [ -n "$git_info" ] && output="$output ${dim}|${reset} $git_info"
 
 printf '%b\n' "$output"
