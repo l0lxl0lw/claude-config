@@ -1,103 +1,33 @@
 ---
 name: commit-and-push
-description: Analyze uncommitted changes, create a commit, and push to remote. Like commit-local-changes but includes git push.
+description: Run commit-local-changes, then push to remote. Use instead of commit-local-changes when the user wants to push.
 disable-model-invocation: true
 allowed-tools: Bash(bash *), Bash(git *), Read, Edit
 ---
 
 # Commit and Push
 
-Analyze uncommitted changes, create a commit, and push to remote.
-
-## Scripts
-
-This skill reuses helper scripts from `~/.claude/skills/commit-local-changes/scripts/` and adds its own:
-
-| Script | Source | Purpose |
-|--------|--------|---------|
-| `analyze-changes.sh` | commit-local-changes | Full repo analysis: status, unpushed, diffs, recent commits |
-| `stage-files.sh [files\|--all]` | commit-local-changes | Stage files with sensitive file warnings |
-| `create-commit.sh <msg> [--amend]` | commit-local-changes | Create commit or amend previous |
-| `push-changes.sh [--force]` | **this skill** | Push to remote with force-push protection |
+Run the commit-local-changes skill, then push to remote.
 
 ## Steps
 
-### Phase 1: Analyze Repository State
+1. Execute the **commit-local-changes** skill (all phases: analyze, handle unpushed, review, stage, commit).
 
-1. Run the analysis script **from the repo root** to get full picture:
+2. Push the commit(s):
    ```bash
-   bash -c 'cd "$(git rev-parse --show-toplevel)" && bash ~/.claude/skills/commit-local-changes/scripts/analyze-changes.sh'
+   git push
    ```
-
-   This outputs:
-   - Git status
-   - Unpushed commits count and list
-   - Staged changes (diff --cached)
-   - Unstaged changes (diff)
-   - Untracked files
-   - Recent commits (for style reference)
-   - README existence check
-
-### Phase 2: Handle Unpushed Commits
-
-2. If there are unpushed commits, ask the user:
-   - **Squash**: Merge new changes into existing commit(s) using `--amend`
-   - **Stack**: Add a new commit on top
-   - **Other**: Let user specify
-
-### Phase 3: Review and Summarize
-
-3. Summarize the changes for the user:
-   - What files changed
-   - What the changes do
-   - Suggested commit message
-
-4. If README.md exists, check if changes affect documented content:
-   - New features need documenting
-   - Changed commands/structure
-   - Removed functionality
-   - Update README if needed
-
-### Phase 4: Stage and Commit
-
-5. Stage files:
+   If no upstream is configured:
    ```bash
-   bash ~/.claude/skills/commit-local-changes/scripts/stage-files.sh --all
+   git push -u origin <branch>
    ```
-   Or stage specific files:
+   If the commit was amended (squash), **ask the user for confirmation first**, then:
    ```bash
-   bash ~/.claude/skills/commit-local-changes/scripts/stage-files.sh file1.js file2.js
-   ```
-
-6. Create commit:
-   ```bash
-   bash ~/.claude/skills/commit-local-changes/scripts/create-commit.sh "commit message here"
-   ```
-   Or amend previous commit (for squash):
-   ```bash
-   bash ~/.claude/skills/commit-local-changes/scripts/create-commit.sh "updated message" --amend
-   ```
-
-### Phase 5: Push to Remote
-
-7. Push the commit(s):
-   ```bash
-   bash ~/.claude/skills/commit-and-push/scripts/push-changes.sh
-   ```
-   If the commit was amended (squash), use force-with-lease — **ask the user for confirmation first**:
-   ```bash
-   bash ~/.claude/skills/commit-and-push/scripts/push-changes.sh --force
+   git push --force-with-lease
    ```
 
 ## Rules
 
-- Continue to the next phase automatically if the current phase completes without errors
-- NEVER include "Co-Authored-By" lines
-- Keep commit messages short and focused on the "why"
-- Use conventional commit style if the repo uses it
-- Only update README when changes meaningfully affect documented content
-- Do not add to README for minor fixes, refactors, or internal changes
-- The stage-files.sh script warns about sensitive files (.env, .pem, .key, etc.)
-- NEVER force push to `main` or `master` — warn the user and refuse
-- Always ask the user for confirmation before using `--force` (amended/squashed commits)
-- If no upstream is configured, push with `-u origin <branch>` to set it up
+- All commit-local-changes rules apply
+- NEVER force push to `main` or `master`
+- Always ask the user for confirmation before force pushing
