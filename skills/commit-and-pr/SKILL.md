@@ -142,3 +142,4 @@ This skill includes helper scripts in `~/.claude/skills/commit-and-pr/scripts/`:
 - The stage-files.sh script warns about sensitive files (.env, .pem, .key, etc.)
 - Only update README when changes meaningfully affect documented content
 - Do not add draft flag unless the user asks for a draft PR
+- NEVER include "Generated with Claude Code" or any AI attribution lines in the PR body
