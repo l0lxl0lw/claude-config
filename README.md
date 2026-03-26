@@ -10,30 +10,28 @@ Global Claude Code configuration repository - custom skills and agents synced ac
 claude-config/
 ├── CLAUDE.md              # Global instructions (imported by ~/.claude/CLAUDE.md)
 ├── skills/                # Custom skills (symlinked to ~/.claude/skills)
-│   ├── commit-and-push/           # Commit and push to remote
-│   ├── commit-and-pr/             # Commit and create GitHub PR
-│   ├── commit-local-changes/      # Analyze & commit uncommitted changes
-│   ├── excalidraw-diagram-generator/  # Generate Excalidraw diagrams
-│   ├── plan/                      # Strategic planning workflow
-│   ├── ralph/                     # Iterative task completion loop
-│   ├── ralplan/                   # Multi-agent planning consensus
-│   ├── frontend-design/           # Frontend design (+ 7 reference docs)
-│   ├── adapt/ animate/ arrange/   # ┐
-│   ├── audit/ bolder/ clarify/    # │ Impeccable design skills
-│   ├── colorize/ critique/        # │ (20 skills for UI polish,
-│   ├── delight/ distill/ extract/ # │  accessibility, typography,
-│   ├── harden/ normalize/         # │  animation, and more)
-│   ├── onboard/ optimize/         # │
-│   ├── overdrive/ polish/         # │
-│   ├── quieter/ teach-impeccable/ # │
-│   ├── typeset/                   # ┘
-│   ├── humanizer/                 # Remove AI-generated writing markers
-│   ├── load-memory/ save-memory/  # Session memory persistence
-│   ├── notion/                    # Interact with Notion workspace
-│   ├── elevenlabs/                # Generate speech, audio, music
-│   ├── remotion/                  # Remotion video creation
-│   ├── readme/                    # Read README and execute instructions
-│   └── update-diagram/            # Scan & update diagram files
+│   ├── impeccable/                # 21 design skills from pbakaus/impeccable
+│   │   ├── frontend-design/      #   Core design skill (+ 7 reference docs)
+│   │   └── adapt/ animate/ ...   #   20 specialized design skills
+│   ├── omc/                       # 3 skills from oh-my-claudecode
+│   │   ├── plan/                  #   Strategic planning workflow
+│   │   ├── ralph/                 #   Iterative task completion loop
+│   │   └── ralplan/               #   Multi-agent planning consensus
+│   ├── community/                 # Skills from individual repos
+│   │   ├── excalidraw-diagram-generator/  # from github/awesome-copilot
+│   │   └── humanizer/            #   from blader/humanizer
+│   ├── git/                       # Custom git workflow skills
+│   │   ├── commit-local-changes/
+│   │   ├── commit-and-push/
+│   │   └── commit-and-pr/
+│   ├── integrations/              # Custom integration skills
+│   │   ├── elevenlabs/
+│   │   ├── notion/
+│   │   └── remotion/
+│   └── utilities/                 # Custom utility skills
+│       ├── load-memory/ save-memory/
+│       ├── update-diagram/
+│       └── readme/
 ├── agents/                # Specialized AI agent personas
 │   ├── architecture/      # Architect agents (system, backend, frontend)
 │   ├── communication/     # Learning guide, technical writer

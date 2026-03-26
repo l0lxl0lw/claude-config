@@ -12,7 +12,12 @@ Global Claude Code configuration — custom skills, agent personas, hooks, and a
 claude-config/
 ├── CLAUDE.md              # Global instructions (imported by ~/.claude/CLAUDE.md via @path)
 ├── skills/                # Custom skills (symlinked to ~/.claude/skills)
-│   └── <skill-name>/SKILL.md   # Each skill has frontmatter + markdown instructions
+│   ├── impeccable/            # Design skills from pbakaus/impeccable
+│   ├── omc/                   # Planning skills from oh-my-claudecode
+│   ├── community/             # Skills from individual repos
+│   ├── git/                   # Custom git workflow skills
+│   ├── integrations/          # Custom integration skills
+│   └── utilities/             # Custom utility skills
 ├── agents/                # Agent personas (.md files with frontmatter)
 ├── hooks/                 # Shell hooks (e.g., statusline.sh for context window progress bar)
 ├── prompts/               # Read-only reference collection of system prompts (Anthropic, Google, OpenAI, etc.)
@@ -25,7 +30,7 @@ claude-config/
 
 ### Skills
 
-Create `skills/<skill-name>/SKILL.md` with YAML frontmatter:
+Create `skills/<category>/<skill-name>/SKILL.md` with YAML frontmatter:
 
 ```yaml
 ---
@@ -36,7 +41,7 @@ allowed-tools: Bash, Read       # Optional: restrict tool access
 ---
 ```
 
-Skills can include helper scripts in `skills/<skill-name>/scripts/`.
+Skills can include helper scripts in `skills/<category>/<skill-name>/scripts/`.
 
 ### Agents
 
