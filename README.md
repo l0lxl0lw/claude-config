@@ -35,6 +35,12 @@ claude-config/
 │   ├── readme/                    # Read README and execute instructions
 │   └── update-diagram/            # Scan & update diagram files
 ├── agents/                # Specialized AI agent personas
+│   ├── architecture/      # Architect agents (system, backend, frontend)
+│   ├── communication/     # Learning guide, technical writer
+│   ├── engineering/       # Executor, performance, refactoring
+│   ├── planning/          # Analyst, planner, requirements
+│   ├── research/          # Deep research, tech stack
+│   └── review/            # Critic, security engineer
 ├── prompts/               # System prompts collection (reference)
 │   ├── Anthropic/ Google/ OpenAI/
 │   ├── Perplexity/ Proton/ xAI/ Misc/
