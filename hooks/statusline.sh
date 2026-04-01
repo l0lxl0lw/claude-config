@@ -23,7 +23,9 @@ if command -v jq &>/dev/null && [ -n "$input" ]; then
   fi
 
   five_hr=$(printf '%s' "$input" | jq -r '.rate_limits.five_hour.used_percentage // empty' 2>/dev/null)
+  five_hr_resets=$(printf '%s' "$input" | jq -r '.rate_limits.five_hour.resets_at // empty' 2>/dev/null)
   seven_day=$(printf '%s' "$input" | jq -r '.rate_limits.seven_day.used_percentage // empty' 2>/dev/null)
+  seven_day_resets=$(printf '%s' "$input" | jq -r '.rate_limits.seven_day.resets_at // empty' 2>/dev/null)
 fi
 
 # Colors
@@ -63,6 +65,21 @@ pct_color() {
   fi
 }
 
+# Countdown helper (args: unix_timestamp) → "4.2h" or "23m" or "2.3d"
+time_until() {
+  local resets_at=$1
+  local now=$(date +%s)
+  local diff=$((resets_at - now))
+  [ "$diff" -le 0 ] && printf 'now' && return
+  if [ "$diff" -ge 86400 ]; then
+    printf '%s' "$(echo "scale=1; $diff / 86400" | bc)d"
+  elif [ "$diff" -ge 3600 ]; then
+    printf '%s' "$(echo "scale=1; $diff / 3600" | bc)h"
+  else
+    printf '%s' "$(echo "scale=0; $diff / 60" | bc)m"
+  fi
+}
+
 # Context bar
 bar_color=$(pct_color "$pct_int")
 bar=$(make_bar "$pct_int" 10)
@@ -92,27 +109,37 @@ if git rev-parse --git-dir &>/dev/null 2>&1; then
   fi
 fi
 
-# Rate limit bars
+# Rate limit bars with reset countdown
 rate_info=""
 if [ -n "$five_hr" ] && [ "$five_hr" != "null" ]; then
   five_hr_int=$(printf '%.0f' "$five_hr")
   five_hr_color=$(pct_color "$five_hr_int")
   five_hr_bar=$(make_bar "$five_hr_int" 10)
-  rate_info="${dim}5h${reset} ${five_hr_color}${five_hr_bar}${reset} ${five_hr_int}%"
+  five_hr_reset=""
+  if [ -n "$five_hr_resets" ] && [ "$five_hr_resets" != "null" ]; then
+    five_hr_reset=" ${dim}(resets $(time_until "$five_hr_resets"))${reset}"
+  fi
+  rate_info="${dim}5h${reset} ${five_hr_color}${five_hr_bar}${reset} ${five_hr_int}%${five_hr_reset}"
 fi
 if [ -n "$seven_day" ] && [ "$seven_day" != "null" ]; then
   seven_day_int=$(printf '%.0f' "$seven_day")
   seven_day_color=$(pct_color "$seven_day_int")
   seven_day_bar=$(make_bar "$seven_day_int" 10)
+  seven_day_reset=""
+  if [ -n "$seven_day_resets" ] && [ "$seven_day_resets" != "null" ]; then
+    seven_day_reset=" ${dim}(resets $(time_until "$seven_day_resets"))${reset}"
+  fi
   [ -n "$rate_info" ] && rate_info="$rate_info ${dim}|${reset} "
-  rate_info="${rate_info}${dim}7d${reset} ${seven_day_color}${seven_day_bar}${reset} ${seven_day_int}%"
+  rate_info="${rate_info}${dim}7d${reset} ${seven_day_color}${seven_day_bar}${reset} ${seven_day_int}%${seven_day_reset}"
 fi
 
-# Build output
-output="${cyan}${model_name}${reset} ${dim}|${reset} ${blue}${dir_path}${reset}"
-[ -n "$repo_link" ] && output="$output ${dim}|${reset} ${cyan}$repo_link${reset}"
-[ -n "$git_info" ] && output="$output ${dim}|${reset} $git_info"
-output="$output ${dim}||${reset} ${dim}ctx${reset} ${bar_color}${bar}${reset} ${pct}%"
-[ -n "$rate_info" ] && output="$output ${dim}|${reset} $rate_info"
+# Build output — line 1: model, path, repo, branch
+line1="${cyan}${model_name}${reset} ${dim}|${reset} ${blue}${dir_path}${reset}"
+[ -n "$repo_link" ] && line1="$line1 ${dim}|${reset} ${cyan}$repo_link${reset}"
+[ -n "$git_info" ] && line1="$line1 ${dim}|${reset} $git_info"
 
-printf '%b\n' "$output"
+# Build output — line 2: context bar + rate limit bars
+line2="${dim}ctx${reset} ${bar_color}${bar}${reset} ${pct}%"
+[ -n "$rate_info" ] && line2="$line2 ${dim}|${reset} $rate_info"
+
+printf '%b\n\n%b\n' "$line1" "$line2"
