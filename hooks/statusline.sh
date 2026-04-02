@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Claude Code Status Line
-# Shows: Model | context bar % | ~/path | repo | ⎇ branch* | 5h/7d rate limits
+# Claude Code Status Line — Elegant edition
+# Line 1: Model │ 📍 path │ repo │ 🔀 branch
+# Line 2: 📊 context bar │ ⏱ 5h/7d rate limits with reset countdowns
 #
 # Requires: jq (brew install jq)
 
@@ -28,40 +29,38 @@ if command -v jq &>/dev/null && [ -n "$input" ]; then
   seven_day_resets=$(printf '%s' "$input" | jq -r '.rate_limits.seven_day.resets_at // empty' 2>/dev/null)
 fi
 
-# Colors
-cyan="\033[36m"
-blue="\033[34m"
-magenta="\033[35m"
-dim="\033[2m"
+# Dracula theme colors (true color)
+purple="\033[38;2;189;147;249m"   # #bd93f9
+cyan="\033[38;2;139;233;253m"     # #8be9fd
+pink="\033[38;2;255;121;198m"     # #ff79c6
+green="\033[38;2;80;250;123m"     # #50fa7b
+comment="\033[38;2;98;114;164m"   # #6272a4
+bold="\033[1m"
 reset="\033[0m"
 
-# Context bar color (dynamic)
-if [ "$pct_int" -ge 80 ]; then
-  bar_color="\033[31m"
-elif [ "$pct_int" -ge 50 ]; then
-  bar_color="\033[33m"
-else
-  bar_color="\033[32m"
-fi
+# Separator
+sep=" ${comment}│${reset} "
 
-# Progress bar helper (args: percentage_int, width)
+# Slim progress bar (args: percentage_int, width)
 make_bar() {
-  local pct_val=$1 width=${2:-10}
+  local pct_val=$1 width=${2:-12}
   local filled_count=$((pct_val * width / 100))
   [ "$filled_count" -gt "$width" ] && filled_count=$width
   local empty_count=$((width - filled_count))
-  printf '%s%s' "$(printf '%*s' "$filled_count" '' | tr ' ' '█')" "$(printf '%*s' "$empty_count" '' | tr ' ' '░')"
+  printf '%s%s' "$(printf '%*s' "$filled_count" '' | tr ' ' '▰')" "$(printf '%*s' "$empty_count" '' | tr ' ' '▱')"
 }
 
-# Color by percentage
+# Color by percentage (Dracula: green → yellow → orange → red)
 pct_color() {
   local val=$1
   if [ "$val" -ge 80 ]; then
-    printf '\033[31m'
-  elif [ "$val" -ge 50 ]; then
-    printf '\033[33m'
+    printf '\033[38;2;255;85;85m'      # #ff5555 red
+  elif [ "$val" -ge 60 ]; then
+    printf '\033[38;2;255;184;108m'    # #ffb86c orange
+  elif [ "$val" -ge 40 ]; then
+    printf '\033[38;2;241;250;140m'    # #f1fa8c yellow
   else
-    printf '\033[32m'
+    printf '\033[38;2;80;250;123m'     # #50fa7b green
   fi
 }
 
@@ -82,7 +81,7 @@ time_until() {
 
 # Context bar
 bar_color=$(pct_color "$pct_int")
-bar=$(make_bar "$pct_int" 10)
+bar=$(make_bar "$pct_int" 12)
 
 # Directory relative to home
 dir_path=$(echo "$PWD" | sed "s|^$HOME|~|")
@@ -93,11 +92,9 @@ repo_link=""
 if git rev-parse --git-dir &>/dev/null 2>&1; then
   branch=$(git branch --show-current 2>/dev/null)
   if [ -n "$branch" ]; then
-    if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
-      git_info="${magenta}⎇ $branch${reset}*"
-    else
-      git_info="${magenta}⎇ $branch${reset}"
-    fi
+    dirty=""
+    [ -n "$(git status --porcelain 2>/dev/null)" ] && dirty="*"
+    git_info="${green}$branch${dirty}${reset}"
   fi
 
   # Clickable repo link (OSC 8)
@@ -105,7 +102,7 @@ if git rev-parse --git-dir &>/dev/null 2>&1; then
   if [ -n "$remote_url" ]; then
     remote_url=$(echo "$remote_url" | sed 's|git@github.com:|https://github.com/|' | sed 's|\.git$||')
     repo_name=$(basename "$remote_url")
-    repo_link="\033]8;;${remote_url}\a${repo_name}\033]8;;\a"
+    repo_link="\033]8;;${remote_url}\a${pink}${repo_name}${reset}\033]8;;\a"
   fi
 fi
 
@@ -117,9 +114,9 @@ if [ -n "$five_hr" ] && [ "$five_hr" != "null" ]; then
   five_hr_bar=$(make_bar "$five_hr_int" 10)
   five_hr_reset=""
   if [ -n "$five_hr_resets" ] && [ "$five_hr_resets" != "null" ]; then
-    five_hr_reset=" ${dim}(resets $(time_until "$five_hr_resets"))${reset}"
+    five_hr_reset=" ${comment}(🔄 $(time_until "$five_hr_resets"))${reset}"
   fi
-  rate_info="${dim}5h${reset} ${five_hr_color}${five_hr_bar}${reset} ${five_hr_int}%${five_hr_reset}"
+  rate_info="${comment}5h${reset} ${five_hr_color}${five_hr_bar}${reset} ${five_hr_int}%${five_hr_reset}"
 fi
 if [ -n "$seven_day" ] && [ "$seven_day" != "null" ]; then
   seven_day_int=$(printf '%.0f' "$seven_day")
@@ -127,19 +124,19 @@ if [ -n "$seven_day" ] && [ "$seven_day" != "null" ]; then
   seven_day_bar=$(make_bar "$seven_day_int" 10)
   seven_day_reset=""
   if [ -n "$seven_day_resets" ] && [ "$seven_day_resets" != "null" ]; then
-    seven_day_reset=" ${dim}(resets $(time_until "$seven_day_resets"))${reset}"
+    seven_day_reset=" ${comment}(🔄 $(time_until "$seven_day_resets"))${reset}"
   fi
-  [ -n "$rate_info" ] && rate_info="$rate_info ${dim}|${reset} "
-  rate_info="${rate_info}${dim}7d${reset} ${seven_day_color}${seven_day_bar}${reset} ${seven_day_int}%${seven_day_reset}"
+  [ -n "$rate_info" ] && rate_info="$rate_info${sep}"
+  rate_info="${rate_info}${comment}7d${reset} ${seven_day_color}${seven_day_bar}${reset} ${seven_day_int}%${seven_day_reset}"
 fi
 
-# Build output — line 1: model, path, repo, branch
-line1="${cyan}${model_name}${reset} ${dim}|${reset} ${blue}${dir_path}${reset}"
-[ -n "$repo_link" ] && line1="$line1 ${dim}|${reset} ${cyan}$repo_link${reset}"
-[ -n "$git_info" ] && line1="$line1 ${dim}|${reset} $git_info"
+# Line 1: Model │ 📍 path │ repo │ 🔀 branch
+line1="${bold}${purple}${model_name}${reset}${sep}${cyan}${dir_path}${reset}"
+[ -n "$repo_link" ] && line1="$line1${sep}$repo_link"
+[ -n "$git_info" ] && line1="$line1${sep}$git_info"
 
-# Build output — line 2: context bar + rate limit bars
-line2="${dim}ctx${reset} ${bar_color}${bar}${reset} ${pct}%"
-[ -n "$rate_info" ] && line2="$line2 ${dim}|${reset} $rate_info"
+# Line 2: 📊 context │ ⏱ rate limits
+line2="${comment}ctx${reset} ${bar_color}${bar}${reset} ${pct}%"
+[ -n "$rate_info" ] && line2="$line2${sep}$rate_info"
 
 printf '%b\n\n%b\n' "$line1" "$line2"
