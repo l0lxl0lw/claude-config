@@ -17,6 +17,9 @@ claude-config/
 │   │   ├── plan/                  #   Strategic planning workflow
 │   │   ├── ralph/                 #   Iterative task completion loop
 │   │   └── ralplan/               #   Multi-agent planning consensus
+│   ├── gstack/                    # 37 skills from l0lxl0lw/gstack (browse, ship, etc.)
+│   │   ├── browse/ ship/ review/  #   Browser QA, ship workflow, PR review
+│   │   └── ...                    #   See README "gstack" section
 │   ├── community/                 # Skills from individual repos
 │   │   ├── excalidraw-diagram-generator/  # from github/awesome-copilot
 │   │   └── humanizer/            #   from blader/humanizer
@@ -95,6 +98,50 @@ Design-focused skills for building polished, production-grade interfaces.
 | `/quieter` | Tone down overly bold or visually aggressive designs |
 | `/teach-impeccable` | One-time setup to gather and persist design context for your project |
 | `/typeset` | Improve typography: font choices, hierarchy, sizing, and readability |
+
+### gstack — [l0lxl0lw/gstack](https://github.com/l0lxl0lw/gstack)
+
+Browser automation, QA, planning reviews, shipping workflow, and safety guardrails. Requires the gstack toolchain installed at `~/.hermes/skills/gstack/` (skills invoke binaries from there).
+
+| Skill | Description |
+|-------|-------------|
+| `/autoplan` | Run the full CEO/design/eng/DX review pipeline sequentially with auto-decisions |
+| `/benchmark` | Performance regression detection: page load, Core Web Vitals, bundle size |
+| `/browse` | Fast headless browser for QA, screenshots, state diffs, and dogfooding |
+| `/canary` | Post-deploy monitoring: watches the live app for errors and regressions |
+| `/careful` | Warn before destructive commands (rm -rf, DROP TABLE, force-push, etc.) |
+| `/checkpoint` | Save and resume working state across sessions and branch switches |
+| `/codex` | OpenAI Codex CLI wrapper: code review, adversarial challenge, consult |
+| `/connect-chrome` | Alias for `/open-gstack-browser` — launch AI-controlled Chromium |
+| `/cso` | Chief Security Officer audit: secrets, supply chain, CI/CD, OWASP, STRIDE |
+| `/design-consultation` | Build a design system from scratch; create `DESIGN.md` source of truth |
+| `/design-html` | Generate production-quality Pretext-native HTML/CSS from approved designs |
+| `/design-review` | Designer's eye QA on a live site — finds and fixes visual issues |
+| `/design-shotgun` | Generate multiple AI design variants and iterate with structured feedback |
+| `/devex-review` | Live DX audit: navigates docs, times TTHW, scorecard with evidence |
+| `/document-release` | Post-ship docs update: README, ARCHITECTURE, CHANGELOG, TODOS |
+| `/freeze` | Restrict edits to a specific directory for the session |
+| `/gstack-upgrade` | Upgrade gstack to the latest version |
+| `/guard` | Full safety mode: `/careful` + `/freeze` combined |
+| `/health` | Code quality dashboard: type check, lint, tests, dead code — composite score |
+| `/investigate` | Systematic debugging: investigate → analyze → hypothesize → implement |
+| `/land-and-deploy` | Merge PR, wait for CI and deploy, verify production health |
+| `/learn` | Review, search, prune, and export learnings across sessions |
+| `/office-hours` | YC-style forcing questions / brainstorming for new product ideas |
+| `/open-gstack-browser` | Launch GStack Browser — AI-controlled Chromium with sidebar extension |
+| `/pair-agent` | Pair a remote AI agent with your browser via scoped access keys |
+| `/plan-ceo-review` | CEO/founder-mode plan review: scope expansion and 10-star product thinking |
+| `/plan-design-review` | Designer's eye plan review — rates and improves design dimensions |
+| `/plan-devex-review` | Interactive DX plan review: personas, benchmarks, magical moments |
+| `/plan-eng-review` | Eng-manager plan review: architecture, data flow, edge cases, perf |
+| `/qa` | Systematic QA testing that also fixes bugs found (commit per fix) |
+| `/qa-only` | Report-only QA testing — structured bug report, no code changes |
+| `/retro` | Weekly engineering retrospective with commit history and trends |
+| `/review` | Pre-landing PR review: SQL safety, LLM trust, side effects |
+| `/setup-browser-cookies` | Import cookies from your real browser into the headless session |
+| `/setup-deploy` | Configure deployment settings for `/land-and-deploy` |
+| `/ship` | Ship workflow: tests, VERSION bump, CHANGELOG, commit, push, open PR |
+| `/unfreeze` | Clear the edit boundary set by `/freeze` |
 
 ## Agents
 
@@ -202,6 +249,7 @@ Some skills in this repo were sourced from open-source projects:
 | [github/awesome-copilot](https://github.com/github/awesome-copilot) | `excalidraw-diagram-generator` | Generate Excalidraw diagrams from natural language descriptions |
 | [blader/humanizer](https://github.com/blader/humanizer) | `humanizer` | Remove signs of AI-generated writing from text |
 | [oh-my-claudecode](https://github.com/anthropics/oh-my-claudecode) | `plan`, `ralph`, `ralplan` | Planning and iterative task completion agents |
+| [l0lxl0lw/gstack](https://github.com/l0lxl0lw/gstack) | `browse`, `ship`, `review`, `qa`, `investigate`, `office-hours`, `autoplan`, `plan-ceo-review`, `plan-eng-review`, `plan-design-review`, `plan-devex-review`, `design-consultation`, `design-html`, `design-review`, `design-shotgun`, `devex-review`, `canary`, `benchmark`, `land-and-deploy`, `document-release`, `retro`, `checkpoint`, `cso`, `codex`, `careful`, `guard`, `freeze`, `unfreeze`, `health`, `learn`, `open-gstack-browser`, `connect-chrome`, `pair-agent`, `qa-only`, `setup-browser-cookies`, `setup-deploy`, `gstack-upgrade` | Browser automation, QA, planning reviews, shipping, and safety guardrails |
 
 ## Useful References
 

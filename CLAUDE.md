@@ -14,6 +14,7 @@ claude-config/
 ├── skills/                # Custom skills (symlinked to ~/.claude/skills)
 │   ├── impeccable/            # Design skills from pbakaus/impeccable
 │   ├── omc/                   # Planning skills from oh-my-claudecode
+│   ├── gstack/                # Browser/QA/ship/review skills from l0lxl0lw/gstack
 │   ├── community/             # Skills from individual repos
 │   ├── git/                   # Custom git workflow skills
 │   ├── integrations/          # Custom integration skills
