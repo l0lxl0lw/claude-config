@@ -44,14 +44,15 @@ This skill includes helper scripts in `~/.claude/skills/commit-local-changes/scr
    - **Stack**: Add a new commit on top
    - **Other**: Let user specify
 
-### Phase 3: Review and Summarize
+### Phase 3: Review and Propose Commit Message
 
 3. Summarize the changes for the user:
    - What files changed
    - What the changes do
-   - Suggested commit message
 
-4. If README.md exists, check if changes affect documented content:
+4. **Auto-propose a commit message** based on the diff. Show it to the user and ask: *"Use this message, or type a replacement?"* Wait for the user to confirm or provide a replacement. Never commit without this confirmation.
+
+5. If README.md exists, check if changes affect documented content:
    - New features need documenting
    - Changed commands/structure
    - Removed functionality
@@ -59,7 +60,7 @@ This skill includes helper scripts in `~/.claude/skills/commit-local-changes/scr
 
 ### Phase 4: Stage and Commit
 
-5. Stage files:
+6. Stage files:
    ```bash
    bash ~/.claude/skills/commit-local-changes/scripts/stage-files.sh --all
    ```
@@ -68,7 +69,7 @@ This skill includes helper scripts in `~/.claude/skills/commit-local-changes/scr
    bash ~/.claude/skills/commit-local-changes/scripts/stage-files.sh file1.js file2.js
    ```
 
-6. Create commit:
+7. Create commit with the user-confirmed message:
    ```bash
    bash ~/.claude/skills/commit-local-changes/scripts/create-commit.sh "commit message here"
    ```
@@ -76,11 +77,13 @@ This skill includes helper scripts in `~/.claude/skills/commit-local-changes/scr
    ```bash
    bash ~/.claude/skills/commit-local-changes/scripts/create-commit.sh "updated message" --amend
    ```
+   The script will refuse any message containing AI attribution.
 
 ## Rules
 
 - Continue to the next phase automatically if the current phase completes without errors
-- NEVER include "Co-Authored-By" lines
+- Always propose a commit message and wait for user confirmation (or a replacement) before running `create-commit.sh`
+- NEVER include "Co-Authored-By" or any "Claude Code" / AI attribution in commit messages — the script rejects them
 - NEVER run `git push` - user pushes manually
 - When squashing, use `--amend` to combine changes into the previous commit
 - Keep commit messages short and focused on the "why"

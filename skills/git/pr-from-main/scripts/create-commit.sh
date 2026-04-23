@@ -22,13 +22,33 @@ else
     echo "Creating new commit..."
 fi
 
+# Reject AI attribution in the commit message
+FORBIDDEN_PATTERNS=(
+    "Co-Authored-By"
+    "Co-authored-by"
+    "Generated with Claude Code"
+    "Generated with \[Claude Code\]"
+    "Claude Code <noreply@anthropic.com>"
+)
+for pattern in "${FORBIDDEN_PATTERNS[@]}"; do
+    if echo "$MESSAGE" | grep -qi "$pattern"; then
+        echo "ERROR: commit message contains forbidden attribution: '$pattern'"
+        echo "Remove it and retry — no Claude Code attribution in git history."
+        exit 1
+    fi
+done
+if echo "$MESSAGE" | grep -q $'\xf0\x9f\xa4\x96'; then
+    echo "ERROR: commit message contains robot emoji — no AI attribution in git history."
+    exit 1
+fi
+
 # Check if there are staged changes
 if git diff --cached --quiet; then
     echo "ERROR: No staged changes to commit"
     echo ""
     echo "Stage files first with:"
     echo "  git add <files>"
-    echo "  or: bash ~/.claude/skills/commit-and-pr/scripts/stage-files.sh --all"
+    echo "  or: bash ~/.claude/skills/pr-from-main/scripts/stage-files.sh --all"
     exit 1
 fi
 

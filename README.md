@@ -24,9 +24,10 @@ claude-config/
 │   │   ├── excalidraw-diagram-generator/  # from github/awesome-copilot
 │   │   └── humanizer/            #   from blader/humanizer
 │   ├── git/                       # Custom git workflow skills
-│   │   ├── commit-local-changes/
-│   │   ├── commit-and-push/
-│   │   └── commit-and-pr/
+│   │   ├── commit-local-changes/     #   Commit on current branch, no push
+│   │   ├── push-to-main/             #   On main: commit + push directly
+│   │   ├── pr-from-main/             #   On main: wrap into feature branch + PR
+│   │   └── sync-main-and-commit/     #   On branch: sync main, merge, commit, push
 │   ├── integrations/              # Custom integration skills
 │   │   ├── elevenlabs/
 │   │   ├── notion/
@@ -54,9 +55,10 @@ claude-config/
 
 | Skill | Description | Model Invocable |
 |-------|-------------|-----------------|
-| `/commit-and-push` | Commit and push to remote (extends commit-local-changes) | No |
-| `/commit-and-pr` | Commit changes on a feature branch and create a GitHub PR | No |
-| `/commit-local-changes` | Analyze uncommitted changes and create a commit | No |
+| `/push-to-main` | On the default branch: commit + push directly to remote | No |
+| `/pr-from-main` | On the default branch: wrap changes into a feature branch with one commit and open a PR | No |
+| `/sync-main-and-commit` | On a feature branch: pull latest main, merge it in, resolve conflicts, commit & push | No |
+| `/commit-local-changes` | Analyze uncommitted changes and create a commit (no push, no PR) | No |
 | `/make-resume` | Generate tailored resume and cover letter from job description | Yes |
 | `/readme` | Read README in current directory and execute instructions | Yes |
 | `/update-diagram` | Scan codebase and update existing diagram files | Yes |

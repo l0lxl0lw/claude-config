@@ -64,9 +64,14 @@ Add to `context/` and import with `@~/workspace/claude-config/context/filename.m
 
 - Skill names use kebab-case directories; agent names use kebab-case `.md` files
 - The `prompts/` directory is a reference archive — organized by provider (Anthropic, Google, OpenAI, xAI, Perplexity, Misc). Read-only, not loaded by Claude Code
-- The commit-local-changes skill enforces: no "Co-Authored-By" lines, no `git push` (user pushes manually), conventional commit style when the repo uses it
-- The commit-and-push skill extends commit-local-changes with a push step; no force push to main/master
-- When using commit-and-push, always run the analyze script from the **repo root** (not a subdirectory) so the README check works correctly
+- `skills/git/` has four workflow-specific skills, each scoped to one scenario:
+  - `commit-local-changes` — commit on the current branch, no push (Claude proposes a message, user confirms or edits)
+  - `push-to-main` — only runs on the default branch; commits and pushes directly
+  - `pr-from-main` — only runs on the default branch; creates a feature branch with one commit and opens a PR
+  - `sync-main-and-commit` — only runs on a feature branch; fast-forwards local main from origin, merges main into the branch (resolves conflicts file-by-file with user confirmation), restores stashed work, commits, and pushes
+- All git skills reject AI attribution at the script level (`Co-Authored-By`, `Generated with Claude Code`, robot emoji). `create-commit.sh` will refuse the commit if the message contains any forbidden pattern.
+- Every git skill shows a proposed commit message (and branch name / PR body where applicable) and waits for user confirmation or a replacement before acting.
+- Always run the analyze script from the **repo root** (not a subdirectory) so the README check works correctly.
 - `.env` and `.google-credentials.json` are gitignored
 
 # currentDate
